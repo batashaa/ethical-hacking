@@ -8,7 +8,16 @@ def scan(ip):
     #Create an coupled packet with ARP and Ether
     request = broadcast/arp
     #Submit an coupled packet and receive responses
-    answered, unanswered = scapy.srp(request, timeout=1)
+    #Fetch only answered
+    answered = scapy.srp(request, timeout=1)[0]
+
+    #Iterate over all the answered list of devices
+    for element in answered:
+        #Print IP and macaddress of the connected devices
+        print(element[1].psrc)
+        print(element[1].hwsrc)
+        print("-------------------------------------------------------------------")
+
     #Print all answered endpoints
     print(answered.summary())
     #print(unanswered.summary())
