@@ -12,13 +12,24 @@ def scan(ip):
     #Make the srp function non-verbose
     answered = scapy.srp(request, timeout=1, verbose=False)[0]
 
-    print("IP\t\t\tMacAddr")
-    print("------------------------------------------")
+    clients = []
     #Iterate over all the answered list of devices
     for element in answered:
+        client = {"ip":element[1].psrc, "mac":element[1].hwsrc}
         #Print IP and macaddress of the connected devices
-        print(element[1].psrc+"\t\t"+element[1].hwsrc)
- 
-    
-scan('192.168.31.1/24')
+        clients.append(client) 
+    return clients
+
+def printheader():
+    print("IP\t\t\tMacAddr")
+    print("--------------------------------")
+
+def printclients(clients):
+    for client in clients:
+        print(client['ip']+"\t\t"+client['mac'])
+
+clients = scan('192.168.31.1/24')
+printheader()
+printclients(clients)
+
 
