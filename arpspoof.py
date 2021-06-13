@@ -14,7 +14,17 @@ def getMac(ip):
     #Make the srp function non-verbose
     answered = scapy.srp(request, timeout=1, verbose=False)[0]
     #Return only the macaddress
-    return answered[0][1].hwsrc
+    #if 0 in answered:
+    #print(answered[0][1].hwsrc)
+    if(len(answered) == 1):
+        return answered[0][1].hwsrc
+    else:
+        print("\n[+] Missed attempt to fetch macaddress of "+ip+" ...")
+        return getMac(ip)
+     
+    #else:
+    #getMac(ip)
+
     
 #Function to send arp spoof packets
 def spoof(targetip,sourceip):
