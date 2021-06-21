@@ -7,7 +7,8 @@ def sniff(interface):
 
 def process_sniffed_packet(packet):
     if packet.haslayer(http.HTTPRequest):
-        print(packet)
+        if packet.haslayer(scapy.Raw):
+            print(packet[scapy.Raw].load)
     #print(packet)
 
 sniff("wlp1s0")
