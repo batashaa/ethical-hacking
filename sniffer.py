@@ -7,9 +7,14 @@ def sniff(interface):
 
 def process_sniffed_packet(packet):
     if packet.haslayer(http.HTTPRequest):
+        host = packet[http.HTTPRequest].Host
+        path = packet[http.HTTPRequest].Path
+        url = host+path
+        print(url)
+
         if packet.haslayer(scapy.Raw):
-            print(packet[scapy.Raw].load)
-    #print(packet)
+            p = packet[scapy.Raw].load
+            print(p)
 
 sniff("wlp1s0")
 
